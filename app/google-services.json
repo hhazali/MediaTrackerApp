@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "832102671173",
+    "project_id": "media-tracker-1c3a3",
+    "storage_bucket": "media-tracker-1c3a3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832102671173:android:b7fa37630f0b68e26a142c",
+        "android_client_info": {
+          "package_name": "com.example.mediatracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvQLxCcH4cP1_r9-hQ6RA96zvehbZ0BV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

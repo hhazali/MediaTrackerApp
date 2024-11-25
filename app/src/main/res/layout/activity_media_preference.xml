@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tv_select_media_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Your Interests"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="#000000" />
+
+        <!-- Grid of Buttons -->
+        <GridLayout
+            android:id="@+id/grid_media_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:layout_marginBottom="16dp">
+
+            <!-- Example Media Buttons -->
+            <Button
+                android:id="@+id/btn_books"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="Books"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="Movies"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_tv_shows"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="TV Shows"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_mangas"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="Mangas"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_webnovels"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="Webnovels"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_other"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_columnWeight="1"
+                android:text="Other"
+                android:backgroundTint="#605EA1"
+                android:textColor="#FFFFFF" />
+        </GridLayout>
+
+        <!-- Save Preferences Button -->
+        <Button
+            android:id="@+id/btn_save_preferences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Preferences"
+            android:backgroundTint="#3F51B5"
+            android:textColor="#FFFFFF"
+            android:padding="12dp" />
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main Content -->
+    <FrameLayout
+        android:id="@+id/contentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#605EA1"> <!-- Purple background -->
+
+        <!-- Text in the center -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MediaTracker"
+            android:textSize="30sp"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center" /> <!-- Centered text -->
+
+    </FrameLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
