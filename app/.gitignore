@@ -1,1 +1,38 @@
-/build
+# Gradle files
+.gradle/
+build/
+*/build/
+
+# Local configuration file (SDK path, etc.)
+local.properties
+
+# Log files
+*.log
+
+# Android Studio/IntelliJ specific files
+.idea/
+*.iml
+*.hprof
+
+# Exclude sensitive or unnecessary files
+.DS_Store
+Thumbs.db
+
+# Keystore files (used for signing APKs)
+*.jks
+
+# Generated files
+/captures/
+/output.json
+
+# Temporary or cache files
+*.apk
+*.ap_
+*.dex
+*.class
+*.war
+*.ear
+*.jar
+*.csv
+*.swp
+*~
