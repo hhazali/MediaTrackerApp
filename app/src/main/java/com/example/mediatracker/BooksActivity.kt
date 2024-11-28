@@ -1,10 +1,11 @@
 package com.example.mediatracker
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,8 +21,10 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private lateinit var navigationView: NavigationView
     private lateinit var toggleButton: ImageButton
     private lateinit var addBookButton: ImageButton
+    private lateinit var listView: ListView
     private lateinit var auth: FirebaseAuth
-    private val mediaPreferences = mutableListOf<String>()
+    private val bookTitles = mutableListOf<String>() // Stores book titles
+    private val mediaPreferences = mutableListOf<String>() // Dynamic menu items
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navigationView = findViewById(R.id.navigationView)
         toggleButton = findViewById(R.id.toggleButton)
         addBookButton = findViewById(R.id.btnAddBook)
+        listView = findViewById(R.id.listView)
         auth = FirebaseAuth.getInstance()
 
         // Set up the toggle button to open/close the drawer
@@ -49,8 +53,9 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             showAddBookOptions()
         }
 
-        // Fetch media preferences from Firestore
+        // Fetch media preferences and books
         loadMediaPreferences()
+        loadSavedBooks() // Make sure this method is public so it can be called externally
     }
 
     private fun showAddBookOptions() {
@@ -62,18 +67,46 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     0 -> {
                         val intent = Intent(this, ScannerActivity::class.java)
                         startActivity(intent)
-                        finish()
                     }
                     1 -> {
-                        // Add Manually Option
-                        Toast.makeText(this, "Add Manually selected", Toast.LENGTH_SHORT).show()
-                        // TODO: Navigate to manual book addition page
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.drawerLayout, ManualAdditionFragment())
+                            .addToBackStack(null)
+                            .commit()
                     }
                 }
             }
             .setNegativeButton("Cancel", null)
             .create()
             .show()
+    }
+
+    // Make this method public or internal so it can be accessed from other classes/fragments
+    public fun loadSavedBooks() {
+        val userId = auth.currentUser?.uid ?: return
+
+        FirebaseFirestore.getInstance().collection("users")
+            .document(userId)
+            .collection("books")
+            .get()
+            .addOnSuccessListener { documents ->
+                bookTitles.clear()
+                for (document in documents) {
+                    val title = document.getString("title")
+                    if (title != null) {
+                        bookTitles.add(title)
+                    }
+                }
+                updateBookList()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to load books.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateBookList() {
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, bookTitles)
+        listView.adapter = adapter
     }
 
     private fun loadMediaPreferences() {
@@ -93,7 +126,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     private fun updateMenu() {
         val menu = navigationView.menu
-        menu.clear() // Clear existing items
+        menu.clear()
 
         // Add media preferences dynamically
         for (media in mediaPreferences) {
@@ -104,7 +137,6 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
         }
 
-        // Add static menu items if needed
         menu.add("Add New Media").setOnMenuItemClickListener {
             Toast.makeText(this, "Add New Media clicked", Toast.LENGTH_SHORT).show()
             drawerLayout.closeDrawer(GravityCompat.START)

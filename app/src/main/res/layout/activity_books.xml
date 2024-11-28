@@ -35,6 +35,13 @@
             android:background="?android:selectableItemBackground"
             android:src="@android:drawable/ic_menu_add"
             android:contentDescription="Add Book" />
+
+        <!-- ListView for displaying books -->
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toggleButton" />
     </RelativeLayout>
 
     <!-- Navigation Drawer -->
