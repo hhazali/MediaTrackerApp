@@ -60,9 +60,9 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> {
-                        // Scan Barcode Option
-                        Toast.makeText(this, "Scan Barcode selected", Toast.LENGTH_SHORT).show()
-                        // TODO: Implement barcode scanning functionality
+                        val intent = Intent(this, ScannerActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     }
                     1 -> {
                         // Add Manually Option

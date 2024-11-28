@@ -56,4 +56,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:24.9.0")
     implementation ("com.google.android.material:material:1.9.0")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation ("com.google.zxing:core:3.4.1")
 }
