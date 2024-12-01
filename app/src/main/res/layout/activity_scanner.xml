@@ -9,4 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <!-- Back Button -->
+    <TextView
+        android:id="@+id/tvBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:background="?android:selectableItemBackground"
+        android:textColor="#3F51B5" />
+
 </FrameLayout>
