@@ -32,12 +32,21 @@
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
 
+        <TextView
+            android:id="@+id/tvAuthors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Authors"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
         <!-- Cover Photo -->
         <ImageView
             android:id="@+id/ivCoverPhoto"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:layout_marginBottom="16dp" />
 
         <!-- Notes -->

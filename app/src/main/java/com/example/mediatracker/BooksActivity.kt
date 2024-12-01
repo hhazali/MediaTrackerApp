@@ -2,6 +2,7 @@ package com.example.mediatracker
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
@@ -65,10 +66,16 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             val selectedBook = books[position]
             val title = selectedBook["title"] as? String
             val notes = selectedBook["notes"] as? String
-            val coverPhoto = selectedBook["coverPhoto"] as? String
+            val coverPhoto = selectedBook["coverUrl"] as? String
+            val authors = selectedBook["authors"] as? String
 
             // Navigate to DetailsFragment
-            val fragment = DetailsFragment.newInstance(title ?: "", coverPhoto, notes)
+            val fragment = DetailsFragment.newInstance(
+                title = title ?: "No Title",
+                coverPhoto = coverPhoto,
+                notes = notes,
+                authors = authors
+            )
             supportFragmentManager.beginTransaction()
                 .replace(R.id.drawerLayout, fragment)
                 .addToBackStack(null)
@@ -76,7 +83,6 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    // Show options to scan or add a book manually
     private fun showAddBookOptions() {
         val options = arrayOf("Scan Barcode", "Add Manually")
         val builder = AlertDialog.Builder(this)
@@ -100,29 +106,6 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .show()
     }
 
-    // Handle the result from ScannerActivity
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == SCANNER_REQUEST_CODE && resultCode == RESULT_OK) {
-            val title = data?.getStringExtra("title") ?: "Untitled"
-            val authors = data?.getStringExtra("authors") ?: "Unknown Author"
-            val coverUrl = data?.getStringExtra("coverUrl") ?: "https://via.placeholder.com/150"
-
-            // Add the new book to the books list
-            val newBook = hashMapOf(
-                "title" to title,
-                "authors" to authors,
-                "coverUrl" to coverUrl
-            )
-            books.add(newBook)
-
-            // Update the ListView
-            updateBookList()
-        }
-    }
-
-    // Load books from Firestore
     public fun loadSavedBooks() {
         val userId = auth.currentUser?.uid ?: return
 
@@ -143,14 +126,12 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
     }
 
-    // Update the ListView with the latest books
     private fun updateBookList() {
         val bookTitles = books.map { it["title"] as? String ?: "Untitled" }
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, bookTitles)
         listView.adapter = adapter
     }
 
-    // Load the user's media preferences
     private fun loadMediaPreferences() {
         val userId = auth.currentUser?.uid ?: return
         FirebaseFirestore.getInstance().collection("users").document(userId)
@@ -166,12 +147,10 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             }
     }
 
-    // Update the navigation drawer with media preferences
     private fun updateMenu() {
         val menu = navigationView.menu
         menu.clear()
 
-        // Add media preferences dynamically
         for (media in mediaPreferences) {
             menu.add(media).setOnMenuItemClickListener {
                 Toast.makeText(this, "Selected: $media", Toast.LENGTH_SHORT).show()
@@ -187,7 +166,6 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-    // Handle navigation item selection
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.title) {
             "Home" -> {
@@ -195,18 +173,12 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 startActivity(intent)
                 finish()
             }
-            "Add New Media" -> {
-                Toast.makeText(this, "Add New Media Selected", Toast.LENGTH_SHORT).show()
-            }
-            else -> {
-                Toast.makeText(this, "Navigating to ${item.title}", Toast.LENGTH_SHORT).show()
-            }
+            else -> Toast.makeText(this, "Navigating to ${item.title}", Toast.LENGTH_SHORT).show()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 
-    // Handle back press
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
