@@ -61,20 +61,17 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         loadMediaPreferences()
         loadSavedBooks() // Make sure this method is public so it can be called externally
 
-        // Set up click listener for ListView
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedBook = books[position]
+            val id = selectedBook["id"] as? String // Add ID
             val title = selectedBook["title"] as? String
             val notes = selectedBook["notes"] as? String
             val coverPhoto = selectedBook["coverUrl"] as? String
             val authors = selectedBook["authors"] as? String
 
-            // Navigate to DetailsFragment
+            // Navigate to DetailsFragment with the ID
             val fragment = DetailsFragment.newInstance(
-                title = title ?: "No Title",
-                coverPhoto = coverPhoto,
-                notes = notes,
-                authors = authors
+                id ?: "", title ?: "", coverPhoto, notes, authors
             )
             supportFragmentManager.beginTransaction()
                 .replace(R.id.drawerLayout, fragment)
@@ -116,7 +113,8 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .addOnSuccessListener { documents ->
                 books.clear()
                 for (document in documents) {
-                    val bookData = document.data
+                    val bookData = document.data.toMutableMap()
+                    bookData["id"] = document.id // Include the document ID
                     books.add(bookData)
                 }
                 updateBookList()
@@ -127,6 +125,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     private fun updateBookList() {
+        // Map books data to display titles
         val bookTitles = books.map { it["title"] as? String ?: "Untitled" }
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, bookTitles)
         listView.adapter = adapter
@@ -163,6 +162,34 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             Toast.makeText(this, "Add New Media clicked", Toast.LENGTH_SHORT).show()
             drawerLayout.closeDrawer(GravityCompat.START)
             true
+        }
+    }
+
+    fun updateBookNotesInList(id: String, newNotes: String) {
+        // Find the book by its id
+        val bookIndex = books.indexOfFirst { it["id"] == id }
+        if (bookIndex != -1) {
+            // Get the book at the index
+            val book = books[bookIndex]
+
+            // Update the notes field inside the book map
+            val updatedBook = book.toMutableMap() // Create a mutable copy of the book
+            updatedBook["notes"] = newNotes // Update the notes
+
+            // Update the book in the list
+            books[bookIndex] = updatedBook // Replace the old book with the updated book
+
+            // Refresh the ListView with updated data
+            updateBookList()
+        }
+    }
+
+    fun removeBookFromList(id: String) {
+        val bookIndex = books.indexOfFirst { it["id"] == id }
+        if (bookIndex != -1) {
+            // Remove the book at the found index
+            books.removeAt(bookIndex)
+            updateBookList() // Refresh the ListView
         }
     }
 

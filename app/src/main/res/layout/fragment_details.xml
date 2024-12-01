@@ -57,5 +57,21 @@
             android:text="Notes"
             android:textSize="20sp"
             android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnEditNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Notes"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnDeleteBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Book"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:textColor="#FFFFFF" />
+
     </LinearLayout>
 </ScrollView>
