@@ -23,7 +23,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private lateinit var addBookButton: ImageButton
     private lateinit var listView: ListView
     private lateinit var auth: FirebaseAuth
-    private val bookTitles = mutableListOf<String>() // Stores book titles
+    private val books = mutableListOf<Map<String, Any>>() // Store books as maps
     private val mediaPreferences = mutableListOf<String>() // Dynamic menu items
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +56,21 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         // Fetch media preferences and books
         loadMediaPreferences()
         loadSavedBooks() // Make sure this method is public so it can be called externally
+
+        // Set up click listener for ListView
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedBook = books[position]
+            val title = selectedBook["title"] as? String
+            val notes = selectedBook["notes"] as? String
+            val coverPhoto = selectedBook["coverPhoto"] as? String
+
+            // Navigate to DetailsFragment
+            val fragment = DetailsFragment.newInstance(title ?: "", coverPhoto, notes)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.drawerLayout, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun showAddBookOptions() {
@@ -81,7 +96,6 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .show()
     }
 
-    // Make this method public or internal so it can be accessed from other classes/fragments
     public fun loadSavedBooks() {
         val userId = auth.currentUser?.uid ?: return
 
@@ -90,12 +104,10 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .collection("books")
             .get()
             .addOnSuccessListener { documents ->
-                bookTitles.clear()
+                books.clear()
                 for (document in documents) {
-                    val title = document.getString("title")
-                    if (title != null) {
-                        bookTitles.add(title)
-                    }
+                    val bookData = document.data
+                    books.add(bookData)
                 }
                 updateBookList()
             }
@@ -105,6 +117,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     private fun updateBookList() {
+        val bookTitles = books.map { it["title"] as? String ?: "Untitled" }
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, bookTitles)
         listView.adapter = adapter
     }
