@@ -26,7 +26,7 @@ class MediaPreferenceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media_preference)
 
-        // Initialize buttons
+        // Initialise buttons
         btnBooks = findViewById(R.id.btn_books)
         btnMovies = findViewById(R.id.btn_movies)
         btnTVShows = findViewById(R.id.btn_tv_shows)
@@ -54,13 +54,13 @@ class MediaPreferenceActivity : AppCompatActivity() {
             if (selectedPreferences.contains(preference)) {
                 // Deselect the button
                 selectedPreferences.remove(preference)
-                button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_unselected)) // Default color
-                button.setTextColor(Color.WHITE) // Text color when not selected
+                button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_unselected)) // Default colour
+                button.setTextColor(Color.WHITE) // Text colour when not selected
             } else {
                 // Select the button
                 selectedPreferences.add(preference)
-                button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_selected)) // Selected color
-                button.setTextColor(Color.WHITE) // Text color when selected
+                button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_selected)) // Selected colour
+                button.setTextColor(Color.WHITE) // Text colour when selected
             }
         }
     }
@@ -79,7 +79,7 @@ class MediaPreferenceActivity : AppCompatActivity() {
                 Toast.makeText(this, "Preferences saved!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
-                finish() // Navigate to the next activity (e.g., HomeActivity)
+                finish() // Navigate to the next activity
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to save preferences: ${e.message}", Toast.LENGTH_LONG).show()

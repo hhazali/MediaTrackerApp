@@ -23,10 +23,10 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        // Initialize Firebase Auth
+        // Initialise Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        // Initialize views
+        // Initialise views
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.et_password)
         etConfirmPassword = findViewById(R.id.et_confirm_password)

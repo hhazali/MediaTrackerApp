@@ -2,7 +2,6 @@ package com.example.mediatracker
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
@@ -59,7 +58,7 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
         // Fetch media preferences and books
         loadMediaPreferences()
-        loadSavedBooks() // Make sure this method is public so it can be called externally
+        loadSavedBooks()
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedBook = books[position]

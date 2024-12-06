@@ -86,7 +86,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.title) {
-            "Books" -> navigateToBooksActivity() // Navigate to BooksActivity
+            "Books" -> navigateToBooksActivity()
             "Add New Media" -> {
                 Toast.makeText(this, "Add New Media Selected", Toast.LENGTH_SHORT).show()
             }

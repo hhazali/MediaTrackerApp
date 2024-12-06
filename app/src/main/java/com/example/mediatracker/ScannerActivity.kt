@@ -29,10 +29,10 @@ class ScannerActivity : AppCompatActivity() {
 
         // Back button functionality
         tvBackButton.setOnClickListener {
-            onBackPressed() // This will finish the current activity and return to the previous one
+            onBackPressed()
         }
 
-        // Initialize the barcode scanner view
+        // Initialise the barcode scanner view
         barcodeScannerView = findViewById(R.id.barcode_scanner)
 
         // Start scanning
@@ -45,7 +45,7 @@ class ScannerActivity : AppCompatActivity() {
             }
 
             override fun possibleResultPoints(resultPoints: MutableList<com.google.zxing.ResultPoint>?) {
-                // No-op
+                // No-operations
             }
         })
     }
@@ -69,7 +69,7 @@ class ScannerActivity : AppCompatActivity() {
         // Prepare ISBN for Open Library query
         val isbnKey = "ISBN:$isbn"
 
-        // Make API call to fetch book details using the ISBN
+        //API call to fetch book details using the ISBN
         service.getBookDetailsByIsbn(isbnKey).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 if (response.isSuccessful) {
