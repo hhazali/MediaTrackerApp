@@ -102,6 +102,28 @@ class BooksActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             .show()
     }
 
+    // Handle the result from ScannerActivity
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SCANNER_REQUEST_CODE && resultCode == RESULT_OK) {
+            val title = data?.getStringExtra("title") ?: "Untitled"
+            val authors = data?.getStringExtra("authors") ?: "Unknown Author"
+            val coverUrl = data?.getStringExtra("coverUrl") ?: "https://via.placeholder.com/150"
+
+            // Add the new book to the books list
+            val newBook = hashMapOf(
+                "title" to title,
+                "authors" to authors,
+                "coverUrl" to coverUrl
+            )
+            books.add(newBook)
+
+            // Update the ListView
+            updateBookList()
+        }
+    }
+
     public fun loadSavedBooks() {
         val userId = auth.currentUser?.uid ?: return
 
